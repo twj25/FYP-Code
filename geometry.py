@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np 
 import math
+import csv
 from PIL import Image
 
 def convert_to_pix_num(x,y):
@@ -11,7 +12,8 @@ def convert_to_pix_num(x,y):
 def convert_to_x_y(pix_num):
     x = pix_num % 255 - 1
     y = math.floor(pix_num / 255)
-    return [x,y]
+    cord = (x,y)
+    return cord
 
 def step_one(org_cord): # input is pixel coordiates of original array (i,j)
     coefficients = np.ones([3,2])
@@ -23,20 +25,38 @@ def step_one(org_cord): # input is pixel coordiates of original array (i,j)
     return std_cord
 
 
-basic_cords_arr = np.arange(1,256)
-x_cords = np.array([[basic_cords_arr],]*255)
-y_cords = np.array([[basic_cords_arr],]*255).transpose()
-xy_arr = np.stack((x_cords,y_cords))
-xy_arr = np.squeeze(xy_arr)
 
-conv_to_cord = np.vectorize(convert_to_x_y)
+# basic_cords_arr = np.arange(1,65026)
+# xy_arr = basic_cords_arr.reshape(255,255)
+# xy_arr.astype(object)
+
+# basic_cords_arr = np.arange(1,26)
+# xy_arr = basic_cords_arr.reshape(5,5)
+# xy_arr.astype(object)
+
+xy_arr = np.empty((255,255),dtype=object)
+
+index_x,index_y = xy_arr.shape
+# Convert from pixel_num to x,y tuple WITH loop
+for cur_y in range(index_y):
+    for cur_x in range(index_x):
+        xy_arr[cur_x][cur_y] = (cur_x + 1,cur_y + 1)
+        #xy_arr[cur_x][cur_y] = 1
+
+
+# Convert from pixel_num to x,y tuple WITHOUT loop
+# conv_to_cord = np.vectorize(convert_to_x_y)
+# new_xy_arr = conv_to_cord(xy_arr)
 
 # step_one_func = np.vectorize(step_one)
 # std_cords_arr = step_one_func(org_cords_arr)
 
-
-np.savetxt("x.csv", xy_arr[0], delimiter=",")
-np.savetxt("y.csv", xy_arr[1], delimiter=",")
+test = xy_arr.tolist()
+with open('test.csv', 'w') as f:
+    writer = csv.writer(f, lineterminator="\n")
+    for tup in test:
+        writer.writerow(tup)
+# np.savetxt("test.csv", xy_arr, delimiter=",")
 
 
 

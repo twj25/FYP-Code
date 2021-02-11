@@ -23,22 +23,28 @@ def step_one(org_cord): # input is pixel coordiates of original array (i,j)
     return std_cord
 
 
-org_cords_arr = np.arange(1,65026)
-org_cords_arr = org_cords_arr.reshape(255,255)
+basic_cords_arr = np.arange(1,256)
+x_cords = np.array([[basic_cords_arr],]*255)
+y_cords = np.array([[basic_cords_arr],]*255).transpose()
+xy_arr = np.stack((x_cords,y_cords))
+xy_arr = np.squeeze(xy_arr)
 
 conv_to_cord = np.vectorize(convert_to_x_y)
-xy_arr = conv_to_cord(org_cords_arr)
 
-step_one_func = np.vectorize(step_one)
-std_cords_arr = step_one_func(org_cords_arr)
+# step_one_func = np.vectorize(step_one)
+# std_cords_arr = step_one_func(org_cords_arr)
 
 
-np.savetxt("test.csv", std_cords_arr, delimiter=",")
+np.savetxt("x.csv", xy_arr[0], delimiter=",")
+np.savetxt("y.csv", xy_arr[1], delimiter=",")
+
 
 
 # img_array = plt.imread("T072142A269_.gif")
 # img = Image.fromarray(img_array, 'L')
 # img.save('test.png')
 # img.show()
+
+
 
 

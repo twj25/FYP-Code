@@ -1,0 +1,40 @@
+X = -127:127;
+X = repmat(X,255,1);
+
+Y = -127:127;
+Y = Y * -1;
+Y = reshape(Y,[],1);
+Y = repmat(Y,1,255);
+
+% A is a 3D matrix
+% A = cat(3,X,Y);
+% S = size(A);
+% [X,Y,Z] = ndgrid(1:S(1),1:S(2),1:S(3));
+% scatter3(X(:),Y(:),Z(:),321,A(:),'filled')
+
+% B is a 2D matrix containing coordinate pairs
+B = zeros(255:255);
+B = string(B);
+% C stores polar coordinates
+C = zeros(255:255);
+C = string(C);
+for y = 1:255
+   for x = 1:255
+       this_x = X(x,y);
+       this_y = Y(x,y);
+       %disp(this_x)
+       B(x,y) = [num2str(this_x),',', num2str(this_y)];
+       
+       r = (this_x^2 + this_y^2)^0.5;
+       theta = atan(this_y/this_x);
+       
+       az_matrix = [sin(theta);cos(theta)];
+       f,g = az_matrix*r;
+       
+       
+       
+       C(x,y) = [num2str(r),',', num2str(theta)];
+   end
+end
+
+

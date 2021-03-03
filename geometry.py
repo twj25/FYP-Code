@@ -4,16 +4,6 @@ import math
 import csv
 from PIL import Image
 
-# def convert_to_pix_num(x,y):
-#     pix_num = (255*y)+x + 1
-#     return pix_num
-
-# def convert_to_x_y(pix_num):
-#     x = pix_num % 255 - 1
-#     y = math.floor(pix_num / 255)
-#     cord = (x,y)
-#     return cord
-
 def test(org_cord):
     new_cord = (1,2)
     return new_cord
@@ -23,18 +13,30 @@ def step_one(org_cord): # input is pixel coordiates of original array (i,j)
 
     i = org_cord[0]
     j = org_cord[1]
-    homogen_ij_matrix = np.array([1,i,j])
-    f,g = np.matmul(homogen_ij_matrix,coefficients)
+   
+    f = i/127
+    g = j/127
     std_cord = (f,g)
     return std_cord
 
-# basic_cords_arr = np.arange(1,65026)
-# xy_arr = basic_cords_arr.reshape(255,255)
-# xy_arr.astype(object)
+def step_two(std_cord):
+    f = std_cord[0]
+    g = std_cord[1]
 
-# basic_cords_arr = np.arange(1,26)
-# xy_arr = basic_cords_arr.reshape(5,5)
-# xy_arr.astype(object)
+    if f == 0:
+        f = 0.000001
+    az = math.atan(g/f)
+    el = math.sqrt(f**2 + g**2)
+
+    azel_cord = (az, el)
+    return azel_cord
+
+def step_three(azel_cord):
+    az = azel_cord[0]
+    el = azel_cord[1]
+
+    
+    
 
 org_cords_arr = np.empty((255,255),dtype=object)
 
@@ -50,19 +52,23 @@ for cur_y in range(len_y):
 # conv_to_cord = np.vectorize(convert_to_x_y)
 # new_xy_arr = conv_to_cord(xy_arr)
 
-# test_func = np.vectorize(test, otypes=[object])
-# test_cords_arr = test_func(xy_arr)
-
 step_one_func = np.vectorize(step_one, otypes=[object])
 std_cords_arr = step_one_func(org_cords_arr)
 
-test = std_cords_arr.tolist()
-with open('test.csv', 'w') as f:
+stp1vals = std_cords_arr.tolist()
+with open('stp1vals.csv', 'w') as f:
     writer = csv.writer(f, lineterminator="\n")
-    for tup in test:
+    for tup in stp1vals:
         writer.writerow(tup)
-# np.savetxt("test.csv", xy_arr, delimiter=",")
 
+step_two_func = np.vectorize(step_two, otypes=[object])
+azel_cords_arr = step_two_func(std_cords_arr)
+
+stp2vals = azel_cords_arr.tolist()
+with open('stp2vals.csv', 'w') as f:
+    writer = csv.writer(f, lineterminator="\n")
+    for tup in stp2vals:
+        writer.writerow(tup)
 
 
 # img_array = plt.imread("T072142A269_.gif")

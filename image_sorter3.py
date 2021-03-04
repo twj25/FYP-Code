@@ -1,24 +1,55 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import shutil
 import os
 
 def slct_moon():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")
+    file_name = file_name[len(file_name)-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Moon/" + file_name
+    shutil.move(images[current_image], new_dir)
     update_image()
     return 
 
 def slct_cloud_heavy():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")
+    file_name = file_name[len(file_name)-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/V_Cloudy/" + file_name
+    shutil.move(images[current_image], new_dir)
     update_image()
     return
 
 def slct_cloud():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")
+    file_name = file_name[len(file_name)-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Cloudy/" + file_name
+    shutil.move(images[current_image], new_dir)
     update_image()
     return
 
 def slct_alm_clear():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")
+    file_name = file_name[len(file_name)-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Almost_Clear/" + file_name
+    shutil.move(images[current_image], new_dir)
     update_image()
     return
 
 def slct_clear():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")
+    file_name = file_name[len(file_name)-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Clear/" + file_name
+    shutil.move(images[current_image], new_dir)
     update_image()
     return
 
@@ -34,7 +65,7 @@ def update_image():
 root = tk.Tk()
   
 # Create the PIL image object
-unsorted_path = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Test/"
+unsorted_path = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Unsorted/"
 unsorted_files = os.listdir(unsorted_path)
 
 images = []

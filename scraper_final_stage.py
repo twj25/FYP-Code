@@ -36,7 +36,7 @@ def get_all_images(url):
             urls.append(img_url)
     return urls
 
-def download(url, pathname):
+def download(url, pathname, save_name):
     """
     Downloads a file given an URL and puts it in the folder `pathname`
     """
@@ -50,7 +50,9 @@ def download(url, pathname):
     file_size = int(response.headers.get("Content-Length", 0))
 
     # get the file name
-    filename = os.path.join(pathname, url.split("/")[-1])
+    save_name = save_name + '_' + url.split("/")[-1]
+    filename = os.path.join(pathname, save_name)
+    
 
     # progress bar, changing the unit to bytes instead of iteration (default by tqdm)
     progress = tqdm(response.iter_content(1024), f"Downloading {filename}", total=file_size, unit="B", unit_scale=True, unit_divisor=1024)
@@ -61,20 +63,38 @@ def download(url, pathname):
             # update the progress bar manually
             progress.update(len(data))
 
-def main(url, path):
+def main(url, path, save_name):
     # get all images
     imgs = get_all_images(url)
+    count = 0
     for img in imgs:
-        # for each img, download it
-        download(img, path)
+        if count % 2 == 0:
+            # download every other image
+            download(img, path, save_name)
+        count += 1
     
-def download_images():
+def download_images(Location, Year, Frequency):
     # call a function to return a list of urls
-    
+    path = r"C:\Users\tomjo\OneDrive\Documents\50 University\Year 5\Individual Proj\Data\Unsorted"
+
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+    for month in months:
+        for day in range(30):
+            print("Month:", month, "  Day:", day)
+            #baseurl = "http://sirius.bu.edu/data/?location=rio_grande&year=2020&filt=5577"
+            baseurl = 'http://sirius.bu.edu/data/?location=' + Location + '&year=' + Year + '&filt=' + Frequency
+            url = baseurl + "&month=" + month + "&day=" + str(day)
+
+            save_name = Location + '_' + Frequency + '_' + str(day) + '_' + month + '_' + Year
+            main(url, path, save_name)
 
     # loop and download all images
-    url = "http://sirius.bu.edu/data/?location=arecibo&year=2017&filt=6300&month=Jun&day=22"
-    path = r"C:\Users\tomjo\OneDrive\Documents\50 University\Year 5\Individual Proj\Data"
-    scraper_final_stage.main(url, path)
+    #url = "http://sirius.bu.edu/data/?location=arecibo&year=2017&filt=6300&month=Jun&day=22"
+    
 
-download_images()
+#Location = "rio_grande"
+Location = "mcdonald"
+Year = '2019'
+Frequency = '5577'
+download_images(Location,Year,Frequency)

@@ -53,9 +53,18 @@ def slct_clear():
     update_image()
     return
 
+def slct_other():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")[-1]
+    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Other/" + file_name
+    shutil.move(images[current_image], new_dir)
+    update_image()
+    return
+
 def update_image():
     global current_image
-    current_image += 1
+    current_image += 50
     photo2 = ImageTk.PhotoImage(Image.open(images[current_image]))
     img.config(image = photo2) 
     img.photo_ref = photo2
@@ -85,7 +94,7 @@ img = tk.Label(root,image = photo)
 # img_label.image = images[current_image]
 
 #img_label.grid(columnspan=5,row=0, column=0)
-img.grid(columnspan=5, row=0, column= 0)
+img.grid(columnspan=6, row=0, column= 0)
  
 # Create Buttons 
 btn_moon = tk.Button(root, width=15, height=3, text="Moon Cover", command = slct_moon)
@@ -102,6 +111,9 @@ btn_alm_clear.grid(row=1, column=3)
 
 btn_clear = tk.Button(root, width=15, height=3, text="Completely Clear", command = slct_clear)
 btn_clear.grid(row=1, column=4)
+
+btn_other = tk.Button(root, width=15, height=3, text="Other", command = slct_other)
+btn_other.grid(row=1, column=5)
  
 # The mainloop
 tk.mainloop()

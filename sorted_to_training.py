@@ -1,28 +1,48 @@
 from matplotlib import pyplot as plt
 import cv2
-from PIL import Image
+import csv
 import numpy as np
 import random
 import glob
-from C_CNN import CNN
+from C_2D_CNN import CNN
 
-def import_data(location, class_idenfier):
-    base_path = 'C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/'
+def import_data(dataset, location, class_idenfier):
+    base_path = 'C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/'
     path = base_path + location + '/*.gif'
 
-    image_list = []
-    for filename in glob.glob(): #assuming gif
+    
+    for filename in glob.glob(path): #assuming gif
+
+        # Read image data
         img_array = plt.imread(filename)
+
+        # Compress and flatten
         compressed_img = cv2.resize(img_array, dsize=(64, 64))
-        compressed_img = compressed_img.flatten()
+        #compressed_img = compressed_img.flatten()
 
-        # This code here generates a random number an assigns it as the first digit to create a dummy training dataset
-        rand = round(random.randint(1,8)/2)
-        training_array= np.insert(compressed_img, 0 ,rand)
-        image_list.append(training_array)
+        # Assign class identifier as the first digit of each line
+        training_array= [class_idenfier,compressed_img]
+        dataset.append(training_array)
 
-
-import_data("Moon",0)
+    return dataset
 
 
-x = 1
+training_dataset = []
+
+
+training_dataset = import_data(training_dataset,"Moon",0)
+training_dataset = import_data(training_dataset,"V_Cloudy",1)
+training_dataset = import_data(training_dataset,"Cloudy",2)
+training_dataset = import_data(training_dataset,"Almost_Clear",3)
+training_dataset = import_data(training_dataset,"Clear",4)
+
+
+random.shuffle(training_dataset)
+
+newCNN = CNN(0.5,[64,128],128,'relu',5)
+newCNN.load_evaluation_data(training_dataset, 80)
+score = newCNN.CNN_2D_evaluate()
+accuracy = score[1] * 100.0
+test_loss = score[0]
+
+

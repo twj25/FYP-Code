@@ -3,12 +3,21 @@ from PIL import Image, ImageTk
 import shutil
 import os
 
+def slct_speckle():
+    global current_image
+    file_name = images[current_image]
+    file_name = file_name.split("/")[-1]
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Speckle/" + file_name
+    shutil.move(images[current_image], new_dir)
+    update_image()
+    return
+
 def slct_moon():
     global current_image
     file_name = images[current_image]
     file_name = file_name.split("/")
     file_name = file_name[len(file_name)-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Moon/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Moon/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return 
@@ -18,7 +27,7 @@ def slct_cloud_heavy():
     file_name = images[current_image]
     file_name = file_name.split("/")
     file_name = file_name[len(file_name)-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/V_Cloudy/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/V_Cloudy/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return
@@ -28,7 +37,7 @@ def slct_cloud():
     file_name = images[current_image]
     file_name = file_name.split("/")
     file_name = file_name[len(file_name)-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Cloudy/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Cloudy/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return
@@ -38,7 +47,7 @@ def slct_alm_clear():
     file_name = images[current_image]
     file_name = file_name.split("/")
     file_name = file_name[len(file_name)-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Almost_Clear/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Almost_Clear/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return
@@ -48,7 +57,7 @@ def slct_clear():
     file_name = images[current_image]
     file_name = file_name.split("/")
     file_name = file_name[len(file_name)-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Clear/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Clear/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return
@@ -57,7 +66,7 @@ def slct_other():
     global current_image
     file_name = images[current_image]
     file_name = file_name.split("/")[-1]
-    new_dir = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Other/" + file_name
+    new_dir = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/Other/" + file_name
     shutil.move(images[current_image], new_dir)
     update_image()
     return
@@ -74,7 +83,7 @@ def update_image():
 root = tk.Tk()
   
 # Create the PIL image object
-unsorted_path = "C:/Users/tomjo/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Unsorted/"
+unsorted_path = "C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Unsorted/"
 unsorted_files = os.listdir(unsorted_path)
 
 images = []
@@ -96,24 +105,27 @@ img = tk.Label(root,image = photo)
 #img_label.grid(columnspan=5,row=0, column=0)
 img.grid(columnspan=6, row=0, column= 0)
  
-# Create Buttons 
+# Create Buttons
+btn_speckle = tk.Button(root, width=15, height=3, text="Speckle", command = slct_speckle)
+btn_speckle.grid(row=1, column=0)
+
 btn_moon = tk.Button(root, width=15, height=3, text="Moon Cover", command = slct_moon)
-btn_moon.grid(row=1, column=0)
+btn_moon.grid(row=1, column=1)
 
 btn__hv_cloud = tk.Button(root, width=15, height=3, text="Heavy Cloud", command = slct_cloud_heavy)
-btn__hv_cloud.grid(row=1, column=1)
+btn__hv_cloud.grid(row=1, column=2)
 
 btn_cloud = tk.Button(root, width=15, height=3, text="Cloud", command = slct_cloud)
-btn_cloud.grid(row=1, column=2)
+btn_cloud.grid(row=1, column=3)
 
 btn_alm_clear = tk.Button(root, width=15, height=3, text="Almost Clear", command = slct_alm_clear)
-btn_alm_clear.grid(row=1, column=3)
+btn_alm_clear.grid(row=1, column=4)
 
 btn_clear = tk.Button(root, width=15, height=3, text="Completely Clear", command = slct_clear)
-btn_clear.grid(row=1, column=4)
+btn_clear.grid(row=1, column=5)
 
 btn_other = tk.Button(root, width=15, height=3, text="Other", command = slct_other)
-btn_other.grid(row=1, column=5)
+btn_other.grid(row=1, column=6)
  
 # The mainloop
 tk.mainloop()

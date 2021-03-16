@@ -6,10 +6,10 @@ import random
 import glob
 from PIL import Image
 from C_2D_CNN import CNN
+from C_kmeans import Kmeans
 
-def import_data(dataset, location, class_idenfier):
-    base_path = 'C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/'
-    path = base_path + location + '/*.gif'
+def import_data(dataset, path, class_idenfier, max = -1):
+    counter = 0
 
     for filename in glob.glob(path): #assuming gif
 
@@ -21,21 +21,46 @@ def import_data(dataset, location, class_idenfier):
         #compressed_img = compressed_img.flatten()
 
         # Assign class identifier as the first digit of each line
-        training_array= [class_idenfier,compressed_img]
-        dataset.append(training_array)
+        # -1 = unsupervised learning, therefore don't add identifier
+        if class_idenfier == -1:
+            dataset.append(compressed_img)
+        # else = supervised learning, therefore add identifier
+        else:
+            training_array= [class_idenfier,compressed_img]
+            dataset.append(training_array)
+
+        # This break allows a maximum quantity of data to be set
+        counter += 1
+        print(counter)
+        if counter == max:
+            break
 
     return dataset
 
 def import_all_training():
     training_dataset = []
-    training_dataset = import_data(training_dataset,"Moon",0)
-    training_dataset = import_data(training_dataset,"V_Cloudy",1)
-    training_dataset = import_data(training_dataset,"Cloudy",1)
-    training_dataset = import_data(training_dataset,"Almost_Clear",1)
-    training_dataset = import_data(training_dataset,"Clear",1)
-    training_dataset = import_data(training_dataset,"Speckle",2)
-    
+    base_path = 'C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Sorted/'
+    classes = ['Moon', 'V_Cloudy', 'Cloudy', 'Almost_Clear', 'Clear', 'Speckle']
+    #classes = ['Moon', 'Cloudy', 'Speckle'] # Test 1
+
+    class_id = 0
+
+    for CLASS in classes:
+        path = base_path + CLASS + '/*.gif'
+        training_dataset = import_data(training_dataset,path,class_id)
+        #training_dataset = import_data(training_dataset,path,-1) # Test 1
+        class_id += 1
+
     random.shuffle(training_dataset)
+    return training_dataset
+
+def import_all(max_quant):
+    path = 'C:/Users/Tom/OneDrive/Documents/50 University/Year 5/Individual Proj/Data/Unsorted/*.gif'
+    training_dataset = []
+    # Import all data, -1 tells function not to add a class identifier to each entry
+    iterations = int(max_quant/100)
+    for i in range(iterations):
+        training_dataset = import_data(training_dataset,path,-1, max=100)
     return training_dataset
 
 def check_dataset_entry(dataset, entry):
@@ -68,11 +93,23 @@ def run_CNN(num_of_outputs, train_test_split, dropout_rate=0.5, num_of_filters=[
     test_loss = score[0]
     return accuracy,test_loss
 
+def run_kmeans(outputs):
+    data = import_all(100)
+    #data = import_all_training() # Test 1
+
+    kmeans_O = Kmeans(outputs)
+    kmeans_O.load_evaluation_data(data)
+    kmeans_O.cluster()
+    return
 
 train_test_split = 180
-number_outputs = 3
+num_outputs = 3
 
-acc, loss = run_CNN(number_outputs, train_test_split)
+# acc, loss = run_CNN(num_outputs, train_test_split)
+run_kmeans(num_outputs)
 
 
+# Test 1
+# Lines 44,51,54,98
+# Test to see if clustering would work correctly on unshuffled, sorted data
 

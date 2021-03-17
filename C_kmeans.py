@@ -11,8 +11,9 @@ class Kmeans:
 
             # spliting into training and testing is unneccessary
             # spliting into x & y is uneccessary
-
-        self.preprocess_data(dataset)
+        img_data = [data[1] for data in dataset]
+        self.directories = [data[0] for data in dataset]
+        self.preprocess_data(img_data)
         return
 
     def preprocess_data(self,data):
@@ -27,6 +28,14 @@ class Kmeans:
 
         kmeans.fit(self.data)
 
-        kmeans.labels_
+        labels = kmeans.labels_
+        result = self.comb_label_and_dir(labels)
 
-        return
+        return result
+
+    def comb_label_and_dir(self, labels):
+        result = []
+        for i in range(len(labels)):
+            result.append([labels[i],self.directories[i]])
+
+        return result

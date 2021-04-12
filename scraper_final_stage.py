@@ -94,7 +94,9 @@ def download_images(Location, Year, Frequency):
     
 
 #Location = "rio_grande"
-Location = "mcdonald"
-Year = '2019'
+#Location = "mcdonald"
+Location = "mercedes"
+#Location = "sutherland"
+Year = '2020'
 Frequency = '5577'
 download_images(Location,Year,Frequency)

@@ -129,7 +129,7 @@ class CNN:
 		#convolutional layer with rectified linear unit activation
 		model.add(Conv2D(32, kernel_size=(3, 3),
 						activation='relu',
-						input_shape=(128,128,1)))
+						input_shape=(64,64,1)))
 		#32 convolution filters used each of size 3x3
 		#again
 		model.add(Conv2D(64, (3, 3), activation='relu'))

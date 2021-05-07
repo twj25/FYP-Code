@@ -3,9 +3,14 @@ function [latlon_matrix, lat_matrix, lon_matrix] = f_Step2(azel_matrix)
     % McDonald Observatory (Texas, US)
     % Latitude = 30 degrees
     % Longitude = -104 degrees
-    lat = 30;
-    lon = -104;
+    %lat = 30;
+    %lon = -104;
     alt = 2085;
+    %mercedes lat/lon
+%     lat = -29;
+%     lon = -58;
+    lat = 0;
+    lon = 0;
     
     Rsat = 90000;
 

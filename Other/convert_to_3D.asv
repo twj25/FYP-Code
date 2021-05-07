@@ -1,0 +1,9 @@
+function [array3D] = convert_to_3D(array2D)
+    array3D = zeros(255,255,2);
+    for y = 1:255
+        for x = 1:255
+            array3D(x+128,y+128) = 
+
+        end
+    end
+end

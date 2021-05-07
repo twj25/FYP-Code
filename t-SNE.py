@@ -1,5 +1,5 @@
-from import_training_data import import_all_training
-from plot_scatter import scatter_2D, scatter_3D
+from f_import_data import import_all_training
+from f_plot_scatter import scatter_2D, scatter_3D
 from matplotlib import pyplot as plt
 import time
 import pandas as pd
@@ -7,7 +7,6 @@ import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 import seaborn as sns
-
 
 def convert_data_format(dataset):
     # Input: List of list, each entry contains two elements: class & compressed image
@@ -70,10 +69,10 @@ def _PCA_3D(x_data, y_data):
 
     return
 
-
-training_dataset = import_all_training()
+data_source = ["mcdonald","5577","2018","Jul"]
+training_dataset = import_all_training(data_source)
 x_subset, y_subset = convert_data_format(training_dataset)
 
-_tSNE(x_subset, y_subset)
-#_PCA(x_subset, y_subset)
+#_tSNE(x_subset, y_subset)
+_PCA(x_subset, y_subset)
 #_PCA_3D(x_subset, y_subset)

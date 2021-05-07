@@ -122,17 +122,17 @@ class CNN:
 		self.units_dense = num_units_dense
 		self.act_func = act_func
 
-	def CNN_2D_evaluate(self):
+	def CNN_2D_evaluate(self, img_size):
 		##model building
 		model = Sequential()
 
 		#convolutional layer with rectified linear unit activation
 		model.add(Conv2D(32, kernel_size=(3, 3),
 						activation='relu',
-						input_shape=(64,64,1)))
+						input_shape=(img_size,img_size,1)))
 		#32 convolution filters used each of size 3x3
 		#again
-		model.add(Conv2D(64, (3, 3), activation='relu'))
+		model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 		#64 convolution filters used each of size 3x3
 		#choose the best features via pooling
 		model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -154,7 +154,7 @@ class CNN:
 					metrics=['accuracy'])
 
 		batch_size = 128
-		num_epoch = 10
+		num_epoch = 7
 		#model training
 		model_log = model.fit(self.trainX, self.trainy,
 				batch_size=batch_size,

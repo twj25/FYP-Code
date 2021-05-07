@@ -1,5 +1,5 @@
-from import_training_data import import_all_training
-from plot_scatter import scatter_2D
+from f_import_training_data import import_all_training
+from f_plot_scatter import scatter_2D
 import numpy as np
 
 def calc_statistics(data):

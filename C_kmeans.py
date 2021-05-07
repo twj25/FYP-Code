@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.cluster import MiniBatchKMeans
+from sklearn.cluster import KMeans
 import shutil
+import matplotlib.pyplot as plt
 
 class Kmeans:
 
@@ -25,7 +27,8 @@ class Kmeans:
         return
 
     def cluster(self):
-        kmeans = MiniBatchKMeans(n_clusters= self.num_classes)
+        #kmeans = MiniBatchKMeans(n_clusters= self.num_classes)
+        kmeans = KMeans(n_clusters= self.num_classes)
 
         kmeans.fit(self.data)
 
@@ -57,10 +60,31 @@ class Kmeans:
                 new_dir = new_dir_base + "2/" + file
             elif cluster_label == 3:
                 new_dir = new_dir_base + "3/" + file
-            else:
+            elif cluster_label == 4:
                 new_dir = new_dir_base + "4/" + file
-
+            elif cluster_label == 5:
+                new_dir = new_dir_base + "5/" + file
+            else:
+                print("error with sorting clustered data")
             shutil.copy(old_dir,new_dir)
             print(counter)
             counter +=1
         return
+
+    def elbow_method(self,k_range):
+
+        distortions = []
+        K = range(1,k_range)
+        for k in K:
+            kmeanModel = KMeans(n_clusters = k)
+            kmeanModel.fit(self.data)
+            distortions.append(kmeanModel.inertia_)
+
+        plt.figure(figsize=(16,8))
+        plt.plot(K, distortions, 'bx-')
+        plt.xlabel('k')
+        plt.ylabel('Distortion')
+        plt.title('The Elbow Method showing the optimal k')
+        plt.show()
+
+

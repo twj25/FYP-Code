@@ -1,4 +1,4 @@
-azel_matrix = f_Step1(513);
+azel_matrix = f_Step1(251);
 [latlon_matrix, lat_matrix, lon_matrix] = f_Step2(azel_matrix);
 
 %[t_az, t_el] = unpack_data(azel_matrix);
